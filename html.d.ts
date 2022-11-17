@@ -10,4 +10,10 @@ declare module '@vue/runtime-core' {
     [key: string]: any
   }
 }
+declare module 'vue' {
+  interface ComponentCustomOptions {
+    beforeRouteEnter?(to: Route, from: Route, next: () => void): void
+  }
+}
+
 export {}

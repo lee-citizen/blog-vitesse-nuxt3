@@ -1,9 +1,12 @@
+<script setup lang="ts">
+const includeArr: Array<string> = ['index', 'about'] // 缓存页面
+/**
+ * TODO keepalive in includeArr
+ */
+</script>
+
 <template>
-  <main class="py-20 px-10 text-center">
-    <slot />
-    <Footer />
-    <div class="mt-5 mx-auto text-center opacity-25 text-sm">
-      [Default Layout]
-    </div>
-  </main>
+  <div class="h-100%">
+    <slot class="page" />
+  </div>
 </template>
