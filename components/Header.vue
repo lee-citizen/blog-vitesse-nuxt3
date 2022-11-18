@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import QRCode from 'qrcode'
-import type { UseTimeoutFnOptions } from '@vueuse/shared'
-import type { ClassElement } from 'typescript'
 import myHooks from '~/hooks/scroll'
+import { likeArticle } from '~/apis/index'
 const props = defineProps({
   music: {
     type: String,
@@ -29,6 +28,11 @@ const props = defineProps({
     default: false,
   },
 })
+
+const emit = defineEmits<{
+  (event: 'liked', isliked: boolean): void
+}>()
+
 const router = useRouter()
 const { scroll_current, scroll_direction } = myHooks()
 const palyStatus = ref('icon-play')
@@ -45,10 +49,9 @@ const played = ref(false)
 const ss = ref('')
 const store = indexStore()
 const data: { [propName: string]: any } = store.$state.data
-const platform = ref('')
-const scrollStatus = (oldVal, val) => {
-  console.log(oldVal)
 
+const platform = ref('')
+const scrollStatus = () => {
   if (Number(scroll_current) >= 100) {
     if (scroll_direction === 'top')
       changeClass.value = 'show'
@@ -68,24 +71,25 @@ const scrollStatus = (oldVal, val) => {
 const changeMusic = async () => {
   played.value = true
 
-  const music = document.getElementById('music') as HTMLAudioElement
-  let duration = music && music.duration
+  const musicTag = document.getElementById('music') as HTMLAudioElement
+
+  let duration = musicTag && musicTag.duration
   let result
 
   // WeChat Browser
   palyStatus.value = palyStatus.value === 'icon-play' ? 'icon-pause' : 'icon-play'
 
   if (palyStatus.value === 'icon-pause') {
-    if (!music.ondurationchange) { // 第一次播放音乐
-      music.load()
+    if (!musicTag.ondurationchange) { // 第一次播放音乐
+      musicTag.load()
       duration = await new Promise((resolve, reject) => {
-        music.ondurationchange = () => {
-          resolve(music.duration)
+        musicTag.ondurationchange = () => {
+          resolve(musicTag.duration)
         }
       })
     }
     try {
-      await music.play()
+      await musicTag.play()
     }
     catch (err) {
       alert('自动播放音乐出现错误，请点击左上角进行播放！')
@@ -94,7 +98,7 @@ const changeMusic = async () => {
     }
     const fn = () => {
       setTimeout(() => {
-        result = music.currentTime / duration
+        result = musicTag.currentTime / duration
         progressLength.value = `${(100 * result).toFixed(2)}%`
         percent.value = result
         if (palyStatus.value === 'icon-pause')
@@ -104,11 +108,12 @@ const changeMusic = async () => {
     fn()
   }
   else {
-    music.pause()
+    musicTag.pause()
   }
 }
-const touch = (e) => {
-  const className = e.target.classList.value
+const touch = (e: Event) => {
+  const target = e.target as HTMLDivElement
+  const className = target.classList.value
   // Wechat code
   if (className === 'iconfont icon-wechat')
     qrccode.value = qrccode.value ? '' : 'qrccode'
@@ -123,9 +128,12 @@ const touch = (e) => {
   if (!played.value && className !== 'iconfont icon-play')
     changeMusic()
 }
-
-const onLike = () => {
-  if (isLike) {
+const dashOffset = computed(() => {
+  return (1 - percent.value) * dashArray.value
+})
+// 喜欢
+const onLike = async () => {
+  if (isLike.value) {
     if (likeTime)
       clearTimeout(likeTime)
 
@@ -133,17 +141,17 @@ const onLike = () => {
     likeTime = setTimeout(() => likeHint.value = false, 2000)
   }
   else {
-
-    // $axios.put(`article_like/${like}`).then((res) => {
-    //   isLike = true
-    //   $emit('liked', true)
-    //   localStorage.setItem(`like-${like}`, true)
-    // })
+    const res = await likeArticle(props.like)
+    if (res) {
+      isLike.value = true
+      emit('liked', true)
+      localStorage.setItem(`like-${props.like}`, 'true')
+    }
   }
 }
 
-const dashOffset = computed(() => {
-  return (1 - percent.value) * dashArray.value
+onBeforeUnmount(() => {
+  props.playMusic && window.removeEventListener(platform.value, touch)
 })
 onMounted(() => {
   const o = {
@@ -152,7 +160,9 @@ onMounted(() => {
         const canvas = document.getElementById('qrccode')
         QRCode.toCanvas(canvas, window.location.href)
       })
+
       isLike.value = !!localStorage.getItem(`like-${props.like}`)
+      // console.log(isLike.value)
     },
     sticky: () => {
       // $watch('scroll_current', this.scrollStatus, { immediate: true })
@@ -232,7 +242,6 @@ onMounted(() => {
       <span class="iconfont" :class="[palyStatus]" />
     </div>
 
-    <!-- music -->
     <audio id="music" loop preload="auto">
       <source type="audio/mpeg" :src="music">
     </audio>

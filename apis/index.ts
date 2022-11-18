@@ -10,3 +10,7 @@ export const getArticleList = (params) => {
 export const getArticleDetail = (id: string) => {
   return useHttp.get(`article/${id}`)
 }
+
+export const likeArticle = (id: string) => {
+  return useHttp.put(`article_like/${id}`)
+}

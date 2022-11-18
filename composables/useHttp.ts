@@ -31,7 +31,9 @@ const fetch = (url: string, options?: any): Promise<any> => {
       }
       const value = data.value
       if (value.status === 1)
-        resolve(toRaw(value))
+        console.log(value)
+
+      resolve(toRaw(value))
     }).catch((err: any) => {
       reject(err)
     })

@@ -1,13 +1,20 @@
 <script lang="ts" setup>
 import myHooks from '~/hooks/scroll'
 import { getArticleDetail } from '~/apis/index'
+// mounted() {
+//         setTimeout(() => {
+//             this.clientHeight = this.getWin('clientHeight')
+//             this.contentHeight = this.getHeight()
+//             this.isLike = !!localStorage.getItem(`like-${this.data._id}`)
+//         })
+//     },
 const commentTotal = ref(0)
 const contentHeight = ref(0)
 const clientHeight = ref(0)
 const header = ref(true)
 const isLike = ref(false)
 const likeHint = ref(false)
-const { scroll_current, scroll_direction } = myHooks()
+const { scroll_current, scroll_direction, getWin } = myHooks()
 // const data: any = {}
 const route = useRoute()
 const { $skinStatus } = useNuxtApp()
@@ -50,13 +57,22 @@ const postProgress = computed(() => {
   const n = Number(100 * (scroll_current.value / h)).toFixed(4)
   return Number(n) < 100 ? `${n}%` : '100%'
 })
-// mounted() {
-//         setTimeout(() => {
-//             this.clientHeight = this.getWin('clientHeight')
-//             this.contentHeight = this.getHeight()
-//             this.isLike = !!localStorage.getItem(`like-${this.data._id}`)
-//         })
-//     },
+const getHeight = () => {
+  const domList = ['.content', '.stuff', '.title']
+  const height = domList.reduce((t, i) => {
+    t += document.querySelector(i).offsetHeight
+    return t
+  }, 0)
+  return height
+}
+onMounted(() => {
+  setTimeout(() => {
+    clientHeight.value = getWin('clientHeight')
+    contentHeight.value = getHeight()
+    isLike.value = !!localStorage.getItem(`like-${data._id}`)
+    console.log(isLike)
+  })
+})
 const getItemData = (type: string) => {
   const o = {
     skin: () => 'skin',
@@ -100,14 +116,7 @@ const onOptions = (type: string) => {
   }
   o[type]()
 }
-const getHeight = () => {
-  const domList = ['.content', '.stuff', '.title']
-  const height = domList.reduce((t, i) => {
-    t += document.querySelector(i).offsetHeight
-    return t
-  }, 0)
-  return height
-}
+
 const liked = () => {
   isLike.value = true
   data.like++

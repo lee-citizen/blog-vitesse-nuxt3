@@ -46,6 +46,7 @@ export default function () {
     scroll_current,
     scroll_isBottom,
     scroll_direction,
+    getWin,
 
   }
 }
