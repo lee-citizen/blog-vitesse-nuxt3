@@ -171,18 +171,19 @@ const loadMoreData = () => {
 </script>
 
 <template>
-  <div v-if="info" class="index" :class="{ navActive: isNav }" max-w-full container absolute w-full>
-    <div class="cover" w-full h-100vh relative z-9999 overflow-hidden>
-      <div id="scene" :style="{ height: boxH }" h-full relative overflow-hidden>
+  <div v-if="info" class="index max-w-full container absolute w-full" :class="{ navActive: isNav }">
+    <div class="cover w-full h-100vh relative z-9999 overflow-hidden">
+      <div id="scene" class="h-full relative overflow-hidden" :style="{ height: boxH }">
         <div class="layer" data-depth="0.4" :style="styleMap.layerStyle">
           <img
-            id="image" :style="styleMap.imgStyle" :src="`http://www.wdxdd.top${image}`" width="1920" height="1080" absolute
-            max-w-none block
+            id="image" class="absolute
+            max-w-none block" :style="styleMap.imgStyle" :src="`http://www.wdxdd.top${image}`" width="1920"
+            height="1080"
           >
         </div>
       </div>
-      <div class="head c-[var(--color-bg-primary)]" absolute md:top-70px top-40px w-full z-99999 p-x-40px p-y-0 f-b-c>
-        <div class="logo-img" w-100px h-44px relative>
+      <div class="head c-[var(--color-bg-primary)] absolute md:top-70px top-40px w-full z-99999 p-x-40px p-y-0 f-b-c">
+        <div class="logo-img w-100px h-44px relative">
           <img
             src="/image/logo/logo1.png" class="opacity-100 md:w-full absolute cursor-pointer
             left-1/2 top-0 h-full w-auto translate-x--1/2 h-auto
@@ -194,15 +195,15 @@ const loadMoreData = () => {
           >
         </div>
         <div
-          class="menu c-[var(--color-red)]" text-center bg-white bg-opacity-90 w-30px h-30px leading-32px rounded-2px
-          cursor-pointer @click="menu"
+          class="menu c-[var(--color-red)] text-center bg-white bg-opacity-90 w-30px h-30px leading-32px rounded-2px
+          cursor-pointer" @click="menu"
         >
-          <span class="iconfont" text-20px :class="isNav ? 'icon-close' : 'icon-menu'" />
+          <span class="iconfont text-20px" :class="isNav ? 'icon-close' : 'icon-menu'" />
         </div>
       </div>
       <div
-        class="misk bg-#B00E25" :style="{ backgroundColor: info.cover.color }" absolute top-0 left-0 h-full w-full
-        bg-opacity-70
+        class="misk bg-#B00E25 absolute top-0 left-0 h-full w-full
+        bg-opacity-70" :style="{ backgroundColor: info.cover.color }"
       />
       <div
         class="post
@@ -211,15 +212,15 @@ const loadMoreData = () => {
       bottom-8/100 left-5/100 top-auto w-7/10 transform-none
       "
       >
-        <div class="time" text-14px>
+        <div class="time text-14px">
           {{ info.cover.date }}
         </div>
-        <div class="title" m-y-0 m-t-15px m-b-30px>
-          <nuxt-link :to="info.cover.link" lg:text-28px text-22px c-white cursor-pointer hover:underline>
+        <div class="title m-y-0 m-t-15px m-b-30px">
+          <nuxt-link :to="info.cover.link" class="lg:text-28px text-22px c-white cursor-pointer hover:underline">
             {{ info.cover.title }}
           </nuxt-link>
         </div>
-        <div class="describe" leading-22px>
+        <div class="describe leading-22px">
           {{ info.cover.describe }}
         </div>
       </div>
@@ -237,20 +238,21 @@ const loadMoreData = () => {
         after:left-1/2
         after:bg-[var(--color-border-1)]
         z-0
-        " m-auto relative p-b-80px text-center sm:wfull lg:w900px xl:w-1200px
+        m-auto relative p-b-80px text-center sm:wfull lg:w900px xl:w-1200px
+        "
       >
         <div
           v-for="(item, index) in list.data" :key="index" class="
-          post group/post odd:text-left even:text-right md:border-b md:border-color-[var(--color-border-1)]" relative
-          lg:mt-100px mt60px z-1 lg:border-none
+          post group/post odd:text-left even:text-right md:border-b md:border-color-[var(--color-border-1)] relative
+          lg:mt-100px mt60px z-1 lg:border-none"
         >
           <div
-            class="img-box cursor-pointer border border-color-[var(--color-border-2)]" text-0 inline-block relative
+            class="img-box cursor-pointer border border-color-[var(--color-border-2)] text-0 inline-block relative
             z-3 overflow-hidden md:rounded-6px lg:w-480px lg:h-310px xl:w-680px xl:h-440px md:wfull md:hauto
-            md:text-center md:border-none sm:w-full sm:h-auto sm:rounded-0 @click="toArticle(item.id)"
+            md:text-center md:border-none sm:w-full sm:h-auto sm:rounded-0" @click="toArticle(item.id)"
           >
             <img
-              v-lazy="item.image.url" sm:mx-auto md:w680px md-max-w-full lg:w-full h-full hover:opacity-95
+              v-lazy="item.image.url" class="sm:mx-auto md:w680px md-max-w-full lg:w-full h-full hover:opacity-95"
               :alt="item.image.name"
             >
           </div>
@@ -271,40 +273,25 @@ const loadMoreData = () => {
             <div class="time c-#999 text-12px ">
               {{ getDate(item.time) }}
             </div>
-            <div class="title title-line-2" xl:mt-8px mt-10px lg:leading-25px>
+            <div class="title title-line-2 xl:mt-8px mt-10px lg:leading-25px">
               <a @click="toArticle(item.id)">{{ item.title }}</a>
             </div>
             <div class="describe c-[var(--color-text-2)] text-14px leading-22px mt-10px">
               {{ item.describe }}
             </div>
             <div
-              class="stuff c-#999 " md:static text-12px lg:absolute flex xl:bottom-80px xl:left-80px lg:bottom-50px
-              lg:left-60px md:mt-20px md:-ml-6px
+              class="stuff c-#999 md:static text-12px lg:absolute flex xl:bottom-80px xl:left-80px lg:bottom-50px
+              lg:left-60px md:mt-20px md:-ml-6px"
             >
               <div
-                v-for="(v, i) in infoIcon" :key="i" class="group" p-6px text-12px flex items-center relative
-                transition-none
+                v-for="(v, i) in infoIcon" :key="i" class="group p-6px text-12px flex items-center relative
+                transition-none"
               >
                 <i class="iconfont" :class="v.icon" /><span>{{ item[v.name] }}</span>
                 <span
-                  class="
-                  opacity-0
-                  invisible
-                  group-hover:opacity-100
-                  group-hover:visible
-                  hint
-                  absolute
-                  bottom-full
-                  left-1/2
-                  translate-x--1/2
-                  translate-y--5px
-                  c-#fff
-                  text-12px
-                  rounded-10px
-                  px-14px
-                  py-5px
-                  space-nowrap
-                  whitespace-nowrap
+                  class="hint opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                  absolute bottom-full left-1/2 translate-x--1/2 translate-y--5px c-#fff
+                  text-12px rounded-10px px-14px py-5px space-nowrap whitespace-nowrap
                   " :style="{ backgroundColor: v.color }"
                 >{{ v.text }}<i
                   class="border-5px border-color-transparent absolute translate-x--1/2 left-1/2 -bottom-10px "
@@ -314,7 +301,7 @@ const loadMoreData = () => {
             </div>
           </div>
         </div>
-        <div class="more" m-90px inline-block @click="loadMoreData">
+        <div class="more m-90px inline-block" @click="loadMoreData">
           <LoadMore />
         </div>
       </div>

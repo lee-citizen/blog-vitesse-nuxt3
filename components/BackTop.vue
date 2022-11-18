@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import myHooks from '~/hooks/scroll'
+const { scroll_current } = myHooks()
 const { $setScroll } = useNuxtApp()
 
 const backTop = (): void => {
   $setScroll('top')
 }
-const { scroll_current } = myHooks()
 </script>
 
 <template>

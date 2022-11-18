@@ -7,3 +7,6 @@ export const getIndexInfo = () => {
 export const getArticleList = (params) => {
   return useHttp.get('article', params)
 }
+export const getArticleDetail = (id: string) => {
+  return useHttp.get(`article/${id}`)
+}

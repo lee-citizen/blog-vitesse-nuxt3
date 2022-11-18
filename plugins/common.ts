@@ -38,7 +38,12 @@ export default defineNuxtPlugin(() => {
   }
 
   return {
+
     provide: {
+      skinStatus: () => {
+        const skinMode = useColorMode()
+        return skinMode.preference === 'dark'
+      },
       // hello: (msg: string) => `Hello ${msg}!`,
       throttle: (fn, interval) => {
         let flag = true

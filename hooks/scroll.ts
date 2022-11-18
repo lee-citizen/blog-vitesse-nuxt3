@@ -2,7 +2,7 @@ import { onBeforeMount, onBeforeUnmount, ref, watch } from 'vue'
 
 export default function () {
   const { $throttle } = useNuxtApp()
-  const scroll_current: number = ref(0) // 当前滚动条位置
+  const scroll_current = ref(0) // 当前滚动条位置
   const scroll_isBottom: boolean = ref(false) // 滚动条触底
   let scrollFn: Function = (): void => { } // scroll 事件
   const scroll_direction: string = ref('') // 滚动方向
@@ -45,6 +45,7 @@ export default function () {
   return {
     scroll_current,
     scroll_isBottom,
+    scroll_direction,
 
   }
 }

@@ -7,6 +7,9 @@ const includeArr: Array<string> = ['index', 'about'] // 缓存页面
 
 <template>
   <div class="h-100%">
+    <NuxtLoadingIndicator>
+      <LoadingTab />
+    </NuxtLoadingIndicator>
     <slot class="page" />
   </div>
 </template>

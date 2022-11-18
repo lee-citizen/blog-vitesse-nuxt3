@@ -16,11 +16,13 @@
     "@nuxtjs/color-mode": "^3.1.8",
     "@pinia/nuxt": "^0.4.3",
     "@types/parallax-js": "^3.1.0",
+    "@types/qrcode": "^1.5.0",
     "@unocss/nuxt": "^0.46.5",
     "@vueuse/nuxt": "^9.5.0",
     "eslint": "^8.27.0",
     "nuxt": "^3.0.0-rc.13",
     "pinia": "^2.0.23",
+    "qrcode": "^1.5.1",
     "sass-loader": "^8.0.0",
     "typescript": "^4.8.4"
   },
@@ -28,7 +30,6 @@
     "nuxt-lazy-load": "^1.2.9",
     "ohash": "^1.0.0",
     "parallax-js": "^3.1.0",
-    "sass": "^1.32.2",
-    "vue-lazyload": "^3.0.0-rc.2"
+    "sass": "^1.32.2"
   }
 }
