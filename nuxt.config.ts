@@ -42,6 +42,7 @@ export default defineNuxtConfig({
   },
   plugins: [
     { src: '@/plugins/lazy-load.ts', ssr: false },
+    { src: '@/plugins/highlight/highlight.ts', ssr: false },
     { src: '@/plugins/common.ts', ssr: false },
   ],
 })

@@ -1,13 +1,6 @@
 <script lang="ts" setup>
 import myHooks from '~/hooks/scroll'
 import { getArticleDetail } from '~/apis/index'
-// mounted() {
-//         setTimeout(() => {
-//             this.clientHeight = this.getWin('clientHeight')
-//             this.contentHeight = this.getHeight()
-//             this.isLike = !!localStorage.getItem(`like-${this.data._id}`)
-//         })
-//     },
 const commentTotal = ref(0)
 const contentHeight = ref(0)
 const clientHeight = ref(0)
@@ -20,6 +13,12 @@ const route = useRoute()
 const { $skinStatus } = useNuxtApp()
 const id = route.params.articleId as string
 const { body: data } = await getArticleDetail(id) as any
+
+// data.contentHtml = data.contentHtml.replace(/<pre>/g, '<div class=\'hljs-container\'><pre >')
+// data.contentHtml = data.contentHtml.replace(/<\/pre>/g, '</div></pre >')
+
+// data.contentHtml.replace(/<\/pre>/g, '</pre></div>')
+
 // const colorMode = useColorMode()
 
 // console.log(colorMode)
@@ -70,7 +69,6 @@ onMounted(() => {
     clientHeight.value = getWin('clientHeight')
     contentHeight.value = getHeight()
     isLike.value = !!localStorage.getItem(`like-${data._id}`)
-    console.log(isLike)
   })
 })
 const getItemData = (type: string) => {
@@ -137,6 +135,14 @@ const totalComment = (val: number) => {
 const validate = ({ params }) => {
   return /^\d+$/.test(params.articleId)
 }
+
+onMounted(() => {
+  setTimeout(() => {
+    clientHeight.value = getWin('clientHeight')
+    contentHeight.value = getHeight()
+    isLike.value = !!localStorage.getItem(`like-${data._id}`)
+  })
+})
 </script>
 
 <template>
@@ -160,7 +166,8 @@ const validate = ({ params }) => {
         <span>评论 {{ commentTotal }}</span>
         <span>喜欢 {{ data.like }}</span>
       </div>
-      <div class="content" v-html="data.contentHtml" />
+      <!-- v-highlight -->
+      <div v-highlight class="content" v-html="data.contentHtml" />
     </section>
 
     <!-- Comment -->
@@ -323,18 +330,18 @@ const validate = ({ params }) => {
         }
       }
 
-      ul li {
-        list-style: none;
-        position: relative;
+      // ul li {
+      //   list-style: none;
+      //   position: relative;
 
-        &:after {
-          content: '☼';
-          font-size: 8px;
-          position: absolute;
-          top: 0px;
-          left: -16px;
-        }
-      }
+      //   &:after {
+      //     content: '☼';
+      //     font-size: 8px;
+      //     position: absolute;
+      //     top: 0px;
+      //     left: -16px;
+      //   }
+      // }
 
       iframe {
         width: 100%;
