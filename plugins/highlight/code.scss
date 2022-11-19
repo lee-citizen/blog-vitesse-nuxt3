@@ -13,7 +13,10 @@ pre {
   background: #21252b;
   box-shadow: 0 10px 30px 0 rgb(0 0 0 / 40%);
   border-radius: 10px;
-  font-family:  "Microsoft YaHei","WenQuanYi Micro Hei",sans-serif !important;
+  // font-family:  "Microsoft YaHei","WenQuanYi Micro Hei",sans-serif !important;
+  *{
+    font-family: Menlo,Monaco,Consolas,"微软雅黑",monospace !important;
+  }
 }
 
 .hljs-ln-n{
@@ -107,4 +110,12 @@ pre::before {
 .hljs-copy:hover{
   background-color: rgba(221,221,221,.2);
   top: 49px;
+}
+.hljs-lang-tag{
+  position: absolute;
+  top: 45px;
+  right: 30px;
+  color: rgba(153, 153, 153,.5);
+  display: block;
+  
 }

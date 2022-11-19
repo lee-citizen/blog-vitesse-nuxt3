@@ -259,10 +259,10 @@ onMounted(() => {
 
     ::v-deep {
 
-      // box-shadow: none !important;
-      // min-height: auto;
-      // background: var(--color-bg-primary);
-      // color: var(--color-text-1);
+      box-shadow: none !important;
+      min-height: auto;
+      background: var(--color-bg-primary);
+      color: var(--color-text-1);
       p {
         line-height: 36px;
         margin: 0 0 22px;
@@ -330,18 +330,18 @@ onMounted(() => {
         }
       }
 
-      // ul li {
-      //   list-style: none;
-      //   position: relative;
+      ul li {
+        list-style: none;
+        position: relative;
 
-      //   &:after {
-      //     content: '☼';
-      //     font-size: 8px;
-      //     position: absolute;
-      //     top: 0px;
-      //     left: -16px;
-      //   }
-      // }
+        &:after {
+          content: '☼';
+          font-size: 8px;
+          position: absolute;
+          top: 0px;
+          left: -16px;
+        }
+      }
 
       iframe {
         width: 100%;

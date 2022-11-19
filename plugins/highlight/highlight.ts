@@ -10,20 +10,18 @@ import 'highlight.js/styles/atom-one-dark.css'
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('highlight', {
     mounted(el, binding) {
-      // const element = el.querySelectorAll('pre code')
-      // element.forEach((block) => {
-      //   hljs.lineNumbersBlock(el, block, binding, {
-      //     singleLine: true, // 开启单行行号显示
-      //   })
-      //   hljs.highlightBlock(block)
-      // })
       const pre = el.querySelectorAll('.content pre')
       const element = el.querySelectorAll('.hljs code')
       element.forEach((block, index) => {
         hljs.lineNumbersBlock(block, block, binding, {
           singleLine: true, // 开启单行行号显示
         })
-        // hljs.highlightBlock(block)
+
+        // 插入语言类型
+        const lang = document.createElement('div')
+        lang.classList.add('hljs-lang-tag')
+        lang.innerText = block.className.replace(/lang-/g, '')
+        pre[index].appendChild(lang)
 
         // 插入复制功能
         const copy = document.createElement('div')
@@ -48,12 +46,14 @@ export default defineNuxtPlugin((nuxtApp) => {
         pre[index].appendChild(copy)
 
         // 鼠标移入显示复制按钮
-        el.addEventListener('mouseout', () => {
+        pre[index].addEventListener('mouseout', () => {
           copy.innerText = '复制'
           copy.style.display = 'none'
+          lang.style.display = 'block'
         })
-        el.addEventListener('mouseover', () => {
+        pre[index].addEventListener('mouseover', () => {
           copy.style.display = 'block'
+          lang.style.display = 'none'
         })
       })
 
